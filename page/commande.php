@@ -1,0 +1,987 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+if (isset($_SESSION['email'])) {
+  include('../include/script.php');
+  include('../include/database.php');
+  include('../include/css.php');
+  include('../include/sidebar.php');
+  include('../include/topbar.php');
+?>
+  <link rel="stylesheet" href="../assets/css/button.reservation.css">
+
+  <!-- Container Fluid-->
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Commande</h1>
+      <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard?mail=<?php echo $mail; ?>&id=<?php echo $id_b; ?>">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tableau de bord</li>
+      </ol>
+    </div>
+    <?php
+    if (isset($_SESSION['message_add'])) { ?>
+
+      <div class="alert alert-primary alert-dismissible" role="alert" <?= $_SESSION['msg_type_add'] ?>>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="fas fa-check"></i>
+        <?php
+        echo $_SESSION['message_add'];
+        unset($_SESSION['message_add']);
+        ?>
+      </div>
+    <?php } else if (isset($_SESSION['message_update'])) { ?>
+      <div class="alert alert-success alert-dismissible " role="alert" <?= $_SESSION['msg_type_update'] ?>>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="fas fa-check"></i>
+        <?php
+        echo $_SESSION['message_update'];
+        unset($_SESSION['message_update']);
+        ?>
+      </div>
+    <?php } else if (isset($_SESSION['message_delete'])) { ?>
+      <div class="alert alert-danger alert-dismissible " role="alert" <?= $_SESSION['msg_type_delete'] ?>>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="fas fa-check"></i>
+        <?php
+        echo $_SESSION['message_delete'];
+        unset($_SESSION['message_delete']);
+        ?>
+      </div>
+    <?php } ?>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12">
+        <div class="card mb-4">
+          <div class="card-header py-3 flex-row align-items-center justify-content-between">
+            <div class="form-row">
+              <div class="col-md-1 mb-2">
+                <a href="../controller/cree_commande?mail=<?php echo $mail ?>&id=<?php echo $id_b ?>" class="btn btn-primary">Ajouter</a>
+                <input type="hidden" name="" id="id_boutique" value="<?php echo $id; ?>">
+                <input type="hidden" class="id_champ" id="id_champ">
+                <input type="hidden" id="numv">
+              </div>
+
+              <div class="col-xl-3">
+
+              </div>
+
+              <div class="col-xl-5">
+              </div>
+              <div class="col-xl-3">
+                <input type="text" id="search" data-filter class="form-control form-control-sm searchBox" placeholder="Rechercher...">
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class=" p-0 " style="margin-top: -20px;margin-left: 10px;margin-right: 10px;">
+              <div class="row mb-3 parent bg-gradient-login" id="contentpage" style="padding-top: 20px;">
+                <!-- debut -->
+                <?php
+
+                $query = "SELECT commande.id_commande, commande.num,DATE_FORMAT(commande.date,'%d/%m/%Y %H:%i') AS date,reception.date as daterecept,nomfour,telephonefour,emailfour FROM `commande` 
+               INNER JOIN reception ON commande.id_commande=reception.id_commande
+               INNER JOIN fournisseur ON fournisseur.idfournisseur=commande.idfournisseur 
+               INNER JOIN boutique ON boutique.id_boutique=fournisseur.id_boutique
+               WHERE  boutique.id_boutique='$id' GROUP BY commande.id_commande ORDER BY commande.id_commande DESC";
+
+                $statement = $db->prepare($query);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $total_row = $statement->rowCount();
+                if ($total_row > 0) {
+                  foreach ($result as $row) {
+                ?>
+
+                    <div class="col-xl-2 col-md-6 mb-4 result well ">
+                      <div class="card h-100">
+                        <div class="card-body ">
+                          <center>
+                            <?php if ($row["daterecept"] == 0000 - 00 - 00) { ?>
+                              <i class="fas fa-ban fa-1x" style="color:#d9534f"></i>
+
+                            <?php } else { ?>
+                              <i class="fas fa-check fa-1x" style="color:#0275d8"></i>
+
+                            <?php } ?>
+                            <div class="nom identifiant" style="font-weight: bold;text-transform: uppercase;font-size: 14px; margin-bottom: 5px;" id="identifiant_<?php if ($row['num'] < 10) {
+                                                                                                                                                                    echo "0" . $row['num'];
+                                                                                                                                                                  } else {
+                                                                                                                                                                    echo $row['num'];
+                                                                                                                                                                  } ?>">
+                              <?php if ($row['num'] < 10) {
+                                echo "0" . $row['num'];
+                              } else {
+                                echo $row['num'];
+                              } ?>
+                            </div>
+                            <div class="nom" style="font-size: 14px; margin-bottom: 10px;" data-content="<?php echo $row["date"]; ?>">
+                              <?php echo $row["date"]; ?>
+                            </div>
+                            <div class="nom" style="font-size: 14px; margin-bottom: 10px;" data-content="<?php echo $row["nom_client"]; ?>">
+                              <?php echo $row["nomfour"]; ?>
+                            </div>
+                            <div id="id_t" class="nom id_t" style="font-size: 14px; margin-bottom: 10px;" data-content="<?php echo $row["telephone"]; ?>">
+                              <?php echo $row["telephonefour"]; ?>
+                            </div>
+                            <div class="fab-container">
+
+                              <div class="fab fab-icon-holder fab-button" id="fab-button_<?php echo $row['id_commande']; ?>" data-id="<?php echo $row['id_commande']; ?>">
+                                <i class="fas fa-question"></i>
+                              </div>
+                              <div class="fab fab-icon-holder fab-hide" id="fab-hide_<?php echo $row['id_commande']; ?>" data-id="<?php echo $row['id_commande']; ?>" style="display: none;">
+                                <i class="fas fa-times"></i>
+                              </div>
+                              <ul class="fab-options fab-show" id="fab-show_<?php echo $row['id_commande']; ?>" style="display: none;">
+                                <li class="div_partage" style="margin-bottom: -10px; text-align: center;padding-right: 20px;display: none;" id="div_partage_<?php echo $row['id_commande']; ?>">
+                                  <div style="display: inline-block;width: 30px;height: 30px;margin-right: 5px;">
+                                  
+                                  <a href="../impression/commande/commande?imprime=<?php echo encryptor('encrypt',$row['id_commande']); ?>&id=<?php echo $id_b; ?>" class="btn btn-secondary rounded-circle btn-sm" data-id="<?php echo $row['id_commande']; ?>" target="_blank"><i class="fa fa-print" style="font-size:15px;" aria-hidden="true"></i>
+                                          </a>
+                                  </div>
+                                  
+                                  <div style="display: inline-block;width: 30px;height: 30px;margin-right: 5px;">
+                                  <button class="btn btn-dark rounded-circle btn-sm btninfo_<?php echo $row['id_commande']; ?>" style="width: 30px;" id="btninfo" data-id="<?php echo $row['id_commande']; ?>"><i class="fa fa-info" style="font-size:15px;"></i>
+                                          </button>
+                                  </div>
+                                  <div style="display: inline-block;width: 30px;height: 30px;margin-right: 5px;">
+                                      <input type="hidden" id="imprime_<?php echo $row['id_commande']; ?>" value="<?php echo encryptor('encrypt',$row['id_commande']); ?>">
+                                      <button name="btn_envoyer" class="btn btn-danger rounded-circle btn-sm shared-nav" data-id="<?php echo $row['id_commande']; ?>" type="button"><i class="fas fa-share-alt" style="font-size:15px;" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                                </li>
+                                <li>
+                                  <span class="fab-label">Partager</span>
+                                  <div class="addremarque fab-icon-holder addremarque_<?php echo $row['id_commande']; ?>" style="display: inline-block;" id="addremarque_<?php echo $row['id_commande']; ?>" data-id="<?php echo $row['id_commande']; ?>">
+                                    <i class="fas fa-share "></i>
+                                  </div>
+                                </li>
+                                <?php if ($row["daterecept"] == 0000 - 00 - 00) {
+                                ?>
+                                  <li>
+                                    <span class="fab-label">Reception</span>
+                                    <div class="fab-icon-holder receptbtn_<?php echo $row['id_commande']; ?>" id="receptbtn" data-id="<?php echo $row['id_commande']; ?>">
+                                      <i class="fas fa-receipt"></i>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <span class="fab-label">Modification</span>
+                                    <div class="fab-icon-holder updatebtn_<?php echo $row['id_commande']; ?>" id="updatebtn" data-id="<?php echo $row['id_commande']; ?>">
+                                      <i class="fas fa-edit" id="shared"></i>
+                                    </div>
+                                  </li>
+                                <?php } else { ?>
+
+                                <?php } ?>
+                                <li>
+                                  <span class="fab-label">Suppression</span>
+                                  <div class="fab-icon-holder deletebtn_<?php echo $row['id_commande']; ?>" id="deletebtn" data-id="<?php echo $row['id_commande']; ?>">
+                                    <i class="fas fa-trash"></i>
+                                  </div>
+
+                                </li>
+
+                              </ul>
+
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+
+                    </div>
+                <?php
+                  }
+                }
+                ?>
+                <!----------fin------------->
+              </div>
+              <div id="pagination" style="text-align: center;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---Container Fluid-->
+  <!------FORMULAIRE AJOUTER------->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <center>
+            <div class="form-row">
+              <div class="col">
+                <form action="../impression/facture_vente" method="get">
+                  <input type="hidden" id="informa_imprimer" name="imprime">
+                  <button type="submit" name="imprimer" class="btn btn-secondary rounded-circle btn-sm"><i class="fa fa-print" style="font-size:38px;" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </div>
+              <div class="col">
+                <form action="../controller/send_email_fournisseur" method="get" style="float: center;">
+                  <input name="code" type="hidden" id="cod" />
+                  <input type="text" id="informa_email" name="informa_email">
+                  <button name="btn_envoyer" class="btn btn-danger rounded-circle btn-sm" type="submit"><i class="fa fa-at" style="font-size:38px;" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </div>
+              <div class="col">
+                <input type="hidden" id="informa_info" name="informa_info">
+                <button class="btn btn-dark rounded-circle btn-sm" id="btninfo" style="width: 50px;"><i class="fa fa-info" style="font-size:38px;"></i>
+                </button>
+              </div>
+            </div>
+          </center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Annuler</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!------FIN FORMULAIRE AJOUTER------->
+  <!------FORMULAIRE MODIFIER------->
+  <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" area-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Modifié !</h5>
+          <button class="close" data-dismiss="modal" aria-label="aria-label""close"><span aria-hidden="true"></span>&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <label>Voulez vous vraiment modifier cette commande ?</label>
+            <input name="edit_id" type="hidden" id="edit_id" class="form-control form-control-sm" readonly>
+            <input name="numero_id" type="text" id="ed_numero_id" class="form-control form-control-sm" readonly />
+            <input name="id" type="hidden" value="<?php echo $id; ?>" class="form-control form-control-sm" readonly>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="updatetdataS" class="btn btn-primary" id="modifie">Modifier</button>
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="fermerm">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------FIN FORMULAIRE MODIFIER------->
+  <!------FORMULAIRE SUPPRIMER------->
+  <form id="supprimer" enctype="multipart/form-data">
+    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" area-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> Supprimer !</h5>
+            <button class="close" data-dismiss="modal" aria-label="aria-label""close"><span aria-hidden="true"></span>&times;</button>
+          </div>
+          <div class="modal-body">
+            <label>Voulez-vous vraiment supprimer cette commande ?</label>
+            <input name="delete_id" type="hidden" id="delete_id" class="form-control form-control-sm" readonly />
+            <input name="numero_id" type="text" id="numero_id" class="form-control form-control-sm" readonly />
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="deletedata" class="btn btn-primary">Supprimer</button>
+            <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="fermers">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!------FIN FORMULAIRE SUPPRIMER------->
+  <!------FORMULAIRE RECEPTION------->
+  <div class="modal fade" id="receptionmodal" tabindex="-1" role="dialog" area-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Reception !</h5>
+          <button class="close" data-dismiss="modal" aria-label="aria-label""close"><span aria-hidden="true"></span>&times;</button>
+        </div>
+        <div class="modal-body">
+          <label>Voulez-vous vraiment receptionner cette commande ?</label>
+          <input name="recept_id" type="hidden" id="recept_id" class="form-control form-control-sm" readonly />
+          <input name="numero_id_recept" type="text" id="numero_id_recept" class="form-control form-control-sm" readonly />
+          <input name="id" type="hidden" value="<?php echo $id; ?>" class="form-control form-control-sm" readonly>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="deletedata" class="btn btn-primary" id="recept">Receptionner</button>
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="fermerr">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!------FIN FORMULAIRE RECEPTION------->
+  <!------FORMULAIRE PROFIL------->
+  <div id="view-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Info commande <span id="numerov"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="dynamic-content"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="fermeri">Fermer</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------FORMULAIRE PROFIL------->
+  <!------FORMULAIRE INFO------->
+  <div id="view-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="dynamic-content1" style="margin-right: 5px;margin-left: 5px; margin-top: 5px;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="">Fermer</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" name="" id="information">
+  <input type="hidden" name="" id="informa_email_vocal">
+  <input type="hidden" name="" id="imprime_vocal">
+  <input type="hidden" name="" id="date_vocal">
+  <input type="hidden" name="" id="id_boutique_vocal" value="<?php echo $id; ?>">
+  <!------FORMULAIRE INFO------->
+  <div class="modal fade" tabindex="-1" role="dialog" id="vocal">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+      <span class="fa fa-spinner fa-spin fa-3x" style="color:#fff"></span>
+    </div>
+  </div>
+
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../js/ruang-admin.min.js"></script>
+  <!-- Page level plugins -->
+
+  <script src="../vendor/chart.js/Chart.min.js"></script>
+  <script src="../vendor/labelChart/chartjs-plugin-datalabels@0.7.js"></script>
+  <!-- Page level custom scripts -->
+  <script src="../js/demo/chart-area-demo.js"></script>
+  <script src="../js/demo/chart-pie-demo.js"></script>
+  <script src="../js/demo/chart-bar-demo.js"></script>
+  <script>
+    $(document).on('click', '#deletedata', function(e) {
+      var form_data = $("#supprimer").serialize();
+      $.ajax({
+        url: "../controller/commande/delete",
+        method: "POST",
+        data: form_data,
+        success: function(data) {
+          console.log(data)
+
+        }
+      })
+      $("#deletemodal").modal("hide");
+
+      swal({
+        title: "Supprimé!",
+        text: "Suppression effectuée avec succés.",
+        type: "error",
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3085d6',
+        showConfirmButton: false,
+        timer: 2000
+      }, function() {
+        window.location.href = "commande?mail=<?php echo  $mail; ?>&id=<?php echo  $id_b; ?>";
+      });
+    })
+
+    $(document).on('click', '.shared-nav', function(e) {
+      var id = $(this).data('id');
+    var imprime=$("#imprime_"+id).val();
+    navigator.share({
+        text: 'Cliquez sur le lien pour télécharger la facture !', // Text to be shared
+        url: "../impression/email/commande?imprime="+imprime, // URL to be shared
+        files: [] // An array of File objects to be shared
+    })
+    })
+
+    $(function() {
+
+      var flexiblePagination = $('#contentpage').flexiblePagination({
+        itemsPerPage: 18,
+        itemSelector: 'div.result:visible',
+        pagingControlsContainer: '#pagination',
+        showingInfoSelector: '#showingInfo',
+        css: {
+          btnNumberingClass: 'btn btn-sm btn-primary',
+          btnFirstClass: 'btn btn-sm btn-primary',
+          btnLastClass: 'btn btn-sm btn-primary',
+          btnNextClass: 'btn btn-sm btn-primary',
+          btnPreviousClass: 'btn btn-sm btn-primary'
+        }
+      });
+      flexiblePagination.getController().onPageClick = function(pageNum, e) {
+        console.log('Cliquez sur la Page: ' + pageNum)
+      };
+
+      // Direct JS Object method of using the FlexiblePagination
+      //        var pager = new Flexible.Pagination();
+      //        pager.itemsPerPage = 1;
+      //        pager.pagingContainer = '#content';
+      //        pager.itemSelector = 'div.result:visible';  //That is, Select and paginate only the filtered visible '.result' div.
+      //        pager.pagingControlsContainer = '#pagingControls';
+      //        pager.showCurrentPage();
+    });
+  </script>
+
+  <script>
+    $(".id_n").each(function() {
+      $('.id_n').hide();
+    });
+    $(".id_t").each(function() {
+      $('.id_t').hide();
+    });
+
+    $("#id_t").hide();
+    $(document).on('click', '.addremarque', function(e) {
+      var id = $(this).data('id');
+        $('#div_partage_'+id).toggle('slow');
+    });
+    $(document).on('click', '.fab-button', function(e) {
+      var id = $(this).data('id');
+      $(".fab-button").each(function() {
+        $('#fab-show_' + id).show(600);
+        $('#fab-hide_' + id).show();
+        $('#fab-button_' + id).hide();
+      });
+    });
+    $(document).on('click', '.fab-hide', function(e) {
+      var id = $(this).data('id');
+      $(".fab-hide").each(function() {
+        $('#fab-show_' + id).hide(300);
+        $('#fab-button_' + id).show();
+        $('#fab-hide_' + id).hide();
+      });
+    });
+    $("#id_boutique_r").select2();
+
+    $("#id_categorie").select2({
+      dropdownParent: $("#exampleModal")
+    });
+    $("#edit_id_categorie").select2({
+      dropdownParent: $("#editmodal")
+    });
+
+    function showPreview(event) {
+      if (event.target.files.length > 0) {
+        var src = URL.createObjectURL(event.target.files[0]);
+        var preview = document.getElementById("file-ip-1-preview");
+        preview.src = src;
+        preview.style.display = "block";
+      }
+    }
+    $('#img-uploadss').hide();
+    $(document).ready(function() {
+      $(document).on('change', '.btn-file :file', function() {
+
+        var input = $(this),
+          label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [label]);
+      });
+
+
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+            $('#img-uploadss').attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      $("#imgInps").change(function() {
+        readURL(this);
+        $('#img-uploadss').show();
+        $('#img-uploads').hide();
+      });
+
+    });
+
+    $(document).on('click', '#updatebtn', function(e) {
+      e.preventDefault();
+
+      var num = $(this).data('id');
+      $.ajax({
+        url: "../controller/commande/fetch_commande",
+        type: "post",
+        data: {
+          num: num
+        },
+        dataType: 'json',
+        success: function(data) {
+          $("#edit_id").val(data.id_commande);
+          if(data.num<10){
+           var num=  "0"+data.num
+          }else{
+            var num=   data.num
+          }
+          $("#ed_numero_id").val(num);
+          $("#editmodal").modal("show");
+        }
+      });
+    });
+    $(document).on('click', '#modifie', function(e) {
+      var edit_id = $("#edit_id").val();
+      window.location.href = "../controller/modifier_commande?mail=<?php echo  $mail; ?>&edit_id=" + edit_id + '&id=<?php echo  $id_b; ?>';
+
+    })
+
+    $(document).on('click', '#deletebtn', function(e) {
+
+      e.preventDefault();
+
+      var del = $(this).data('id');
+      $.ajax({
+        url: "../controller/commande/fetch_commande",
+        type: "post",
+        data: {
+          del: del
+        },
+        dataType: 'json',
+        success: function(data) {
+
+          $("#delete_id").val(data.id_commande);
+          if(data.num<10){
+           var num=  "0"+data.num
+          }else{
+            var num=   data.num
+          }
+          $("#numero_id").val(num);
+          $("#deletemodal").modal("show");
+
+        }
+      });
+    });
+    $(document).on('click', '#receptbtn', function(e) {
+
+      e.preventDefault();
+
+      var del = $(this).data('id');
+      $.ajax({
+        url: "../controller/commande/fetch_commande",
+        type: "post",
+        data: {
+          del: del
+        },
+        dataType: 'json',
+        success: function(data) {
+
+          $("#recept_id").val(data.id_commande);
+          if(data.num<10){
+           var num=  "0"+data.num
+          }else{
+            var num=   data.num
+          }
+          $("#numero_id_recept").val(num);
+          $("#receptionmodal").modal("show");
+
+        }
+      });
+    });
+    $(document).on('click', '#recept', function(e) {
+      var recept_id = $("#recept_id").val();
+      window.location.href = "../controller/cree_reception?mail=<?php echo  $mail; ?>&recept_id=" + recept_id + '&id=<?php echo  $id_b; ?>';
+
+    })
+
+    $(document).on('click', '#btninfo', function(e) {
+      e.preventDefault();
+
+      var facture = $(this).data('id');
+
+      $('#view-modal').modal("show");
+      $.ajax({
+        url: "../fetch/info/info_commande",
+        type: "post",
+        data: {
+          facture: facture
+        },
+        dataType: 'html',
+        success: function(data) {
+          console.log(data);
+          $('#dynamic-content').html(data);
+        }
+      });
+    });
+
+    $(document).on('click', '#infobtn', function(e) {
+      e.preventDefault();
+
+      var facture = $(this).data('id');
+      $.ajax({
+        url: "../controller/commande/fetch_commande",
+        type: "post",
+        data: {
+          facture: facture
+        },
+        dataType: 'json',
+        success: function(data) {
+          console.log(data);
+          $("#informa_imprimer").val(data.id_commande);
+          $("#informa_info").val(data.id_commande);
+          $("#cod").val(data.num);
+          $("#co").val(data.num);
+          $("#informa_whatssap").val(data.telephone);
+          $("#informa_email").val(data.emailfour);
+          $('#exampleModal').modal("show");
+
+        }
+      });
+    });
+    $(function() {
+      $('#btn_print').on('click', function() {
+        //Print ele2 with default options
+        $("#dynamic-content").print();
+      });
+    });
+  </script>
+  <script>
+    var scrolled = 0;
+    if (annyang) {
+
+      annyang.setLanguage('fr-FR');
+      // Let's define our first command. First the text we expect, and then the function it should call
+      var commands = {
+        continuous: true,
+        'ajouter': function() {
+          $('#vocal').modal('show');
+          setTimeout(function() {
+            console.log('completed');
+            $('#vocal').modal('hide');
+            window.location.href = "../controller/cree_commande?mail=<?php echo  $mail; ?>&id=<?php echo  $id_b; ?>";
+
+          }, 3000);
+        },
+        'paramètre': function() {
+          var id = $('#numv').val()
+          if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            $('#fab-button_' + id).click();
+          }
+        },
+        'partager': function() {
+          var id = $('#numv').val()
+          $('#addremarque_' + id).click();
+        },
+        'modification': function() {
+          if ($('#date_vocal').val() == "0000-00-00 00:00:00") {
+            var id = $('#numv').val()
+            $('.updatebtn_' + id).click();
+          } else if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            swal({
+              title: "Erreur!",
+              text: "La commande a déja été récéptionné.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+        },
+        'suppression': function() {
+          var id = $('#numv').val()
+          $('.deletebtn_' + id).click();
+        },
+
+        'réception': function() {
+          if ($('#date_vocal').val() == "0000-00-00 00:00:00") {
+            var id = $('#numv').val()
+            $('.receptbtn_' + id).click();
+
+          } else if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            swal({
+              title: "Erreur!",
+              text: "La commande a déja été récéptionné.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+        },
+        'supprimer': function() {
+          if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            $("#deletedata").click();
+          }
+        },
+        'fermer': function() {
+          $("#fermerm").click();
+          $("#fermers").click();
+          $("#fermeri").click();
+          $("#fermerr").click();
+          var id = $('#numv').val()
+          $('#fab-hide_' + id).click();
+          $('#addremarque_' + id).click();
+
+        },
+        'modifier': function() {
+          var id = $('#numv').val()
+          if ($('#date_vocal').val() == "0000-00-00 00:00:00") {
+            $('#vocal').modal('show');
+            $('#editmodal').modal('hide');
+            setTimeout(function() {
+              console.log('completed');
+              $('#vocal').modal('hide');
+              $("#modifie").click();
+            }, 3000);
+          } else if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+
+          } else {
+            swal({
+              title: "Erreur!",
+              text: "La commande a déja été récéptionné.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+        },
+        'réceptionner': function() {
+          if ($('#date_vocal').val() == "0000-00-00 00:00:00") {
+            $('#vocal').modal('show');
+            $('#receptionmodal').modal('hide');
+            setTimeout(function() {
+              console.log('completed');
+              $('#vocal').modal('hide');
+              $("#recept").click();
+            }, 3000);
+          } else {
+            swal({
+              title: "Erreur!",
+              text: "La commande a déja été récéptionné.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+
+        },
+        'imprimer': function() {
+          var id = $('#numv').val()
+          if ($('#numv').val() == "") {
+            swal({
+              title: "Erreur!",
+              text: "Veillez choisir un identifiant.",
+              type: "error",
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#3085d6',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            $('#vocal').modal('show');
+            setTimeout(function() {
+              console.log('completed');
+              $('#vocal').modal('hide');
+
+              window.open("../impression/commande/commande?imprime=" + id + '&id=<?php echo  $id_m; ?>', '_blank');
+
+            }, 3000);
+          }
+        },
+        'information': function() {
+          var id = $('#numv').val()
+          $('.btninfo_' + id).click();
+        },
+        'email': function() {
+          var id = $('#numv').val()
+          $('#btn_email_' + id).click();
+        },
+        'WhatsApp': function() {
+          var id = $('#numv').val()
+          var url = $('.whatsapp_' + id).attr("href");
+          window.open(url, '_blank');
+
+        },
+        'vers le bas': function() {
+          scrolled = scrolled + 300;
+          $("#page-top").animate({
+            scrollTop: scrolled
+          });
+        },
+        'vers le haut': function() {
+          scrolled = scrolled - 300;
+          $("#page-top").animate({
+            scrollTop: scrolled
+          });
+        },
+        'actualiser': function() {
+
+          $('#editmodal').modal('hide');
+          $('#deletemodal').modal('hide');
+          $("#receptionmodal").modal("hide");
+          $('#vocal').modal('show');
+
+          setTimeout(function() {
+            console.log('completed');
+            $('#vocal').modal('hide');
+            $("#fermeri").click();
+            window.location.href = "commande?id=<?php echo  $id_m; ?>";
+
+          }, 1000);
+        },
+        'arrêter la recherche': function(variables) {
+          $("#search").val("");
+          if ($("#search").val(variables)) {
+            $(".searchBox").keyup();
+          }
+        },
+        'rechercher *tag': function(variable) {
+          let task_name = document.getElementById("search");
+          task_name.value = variable;
+          var currency = $('#search').val().toLowerCase().replace(/,/g, ''); // exclude commas
+          if (currency) {
+            $(".searchBox").keyup();
+          }
+
+        },
+        'identifiant *tag': function(variable) {
+          let task_name = document.getElementById("id_champ");
+          task_name.value = variable;
+          var color_id = $('#id_champ').val();
+          $('.identifiant').css("color", "");
+          if (color_id) {
+            $('#identifiant_' + color_id).animate({
+              'zoom': 3
+            }, 'slow');
+            setTimeout(function() {
+              $('#identifiant_' + color_id).animate({
+                'zoom': 1
+              }, 'slow');
+
+            }, 3000);
+            $('#identifiant_' + color_id).css({
+              "color": "red",
+            });
+          }
+          var currency = $('#id_champ').val().toLowerCase().replace(/,/g, ''); // exclude commas
+          if (currency) {
+            $(".id_champ").keyup();
+          }
+
+          var id_boutique = $("#id_boutique").val();
+          var search = $("#id_champ").val();
+          $.ajax({
+            url: "../controller/commande/fetch_commande",
+            type: "post",
+            data: {
+              id_boutique: id_boutique,
+              search: search
+            },
+            dataType: 'json',
+            success: function(data) {
+              console.log(data);
+              $("#numv").val(data.id_commande)
+              $("#date_vocal").val(data.daterecept)
+              $("#edit_id").val(data.id_commande)
+              $("#delete_id").val(data.id_commande);
+
+            }
+          });
+
+        }
+      };
+
+      // Add our commands to annyang
+      annyang.addCommands(commands);
+
+      // Start listening. You can call this here, or attach this call to an event, button, etc.
+      annyang.start();
+    }
+  </script>
+
+<?php include('../include/Footer.php');
+} else if (isset($_SESSION['profil']) == '') {
+  header("Location:../");
+}
+?>

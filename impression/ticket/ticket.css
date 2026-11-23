@@ -1,0 +1,262 @@
+@page {
+    size: 250pt 480pt;
+}
+
+* {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.reference {
+    padding-top: 5px;
+    border-bottom: dotted 2px;
+    height: 55px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    width: 100%;
+    margin-top: -20px;
+}
+
+.logo {
+    width: 17%;
+    height: 45px;
+    display: inline-block;
+    border: solid 1px;
+    vertical-align: top;
+    font-size: 8px;
+}
+
+.logo p {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.logo-photo {
+    width: 17%;
+    height: 45px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.img-logo {
+    width: 100%;
+    height: 45px;
+    max-height: 100%;
+}
+
+.ref {
+    width: 81%;
+    font-size: 9px;
+    text-align: right;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 2px;
+}
+
+.ticket {
+    margin-top: 2px;
+    font-size: 10;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.num {
+    margin-top: 2px;
+}
+
+.numero {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    font-size: 12px;
+    border-top: dotted 2px;
+    border-bottom: dotted 2px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+}
+
+.date {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    text-align: right;
+    font-size: 12px;
+    margin-left: -5px;
+    border-top: dotted 2px;
+    border-bottom: dotted 2px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+}
+
+.client {
+    width: 100%;
+    font-size: 12px;
+}
+
+.client1 {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    font-size: 11px;
+}
+
+.livraison {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    font-size: 11px;
+    text-align: right;
+    margin-left: -5px;
+}
+
+.titre {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.table-note {
+    overflow: hidden;
+    overflow-x: auto;
+    clear: both;
+    width: 100%;
+    border: dotted 2px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    height: auto;
+    padding-bottom: 10px;
+}
+
+.table1 {
+    border-collapse: collapse;
+    margin-left: -1px;
+    width: 100%;
+}
+
+.table1,
+td,
+th {
+    border: 2px dotted #000000;
+}
+
+.th1 {
+    width: 55%;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+.th2 {
+    width: 25%;
+    font-size: 12px;
+    text-align: center;
+}
+
+.th3 {
+    width: 15%;
+    font-size: 12px;
+    text-align: center;
+}
+
+.td1 {
+    font-size: 10px;
+    margin-left: 2px;
+}
+
+.td2 {
+    font-size: 10px;
+    margin-left: 2px;
+    text-align: center;
+}
+
+.total1 {
+    width: 100%;
+    height: auto;
+    border: dotted 2px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.table2 {
+    border: solid 0px;
+    margin-left: -1px;
+    width: 100%;
+    margin-top: -2px;
+}
+
+.th1a {
+    font-size: 11px;
+    border: 0;
+    height: 10px;
+    width: 33.3%;
+}
+
+.th1b {
+    font-size: 11px;
+    text-align: center;
+    border: 0;
+    width: 33.3%;
+}
+
+.th1c {
+    font-size: 11px;
+    text-align: right;
+    border: 0;
+    width: 33.3%;
+}
+
+.td1a {
+    font-size: 11px;
+    border: 0;
+}
+
+.td1b {
+    font-size: 11px;
+    text-align: center;
+    border: 0;
+}
+
+.td1c {
+    font-size: 11px;
+    text-align: right;
+    border: 0;
+}
+
+.th2a {
+    font-size: 11px;
+    border: 0;
+}
+
+.td2b {
+    font-size: 11px;
+    text-align: right;
+    border: 0;
+}
+
+.th3a {
+    font-size: 11px;
+    border: 0;
+    width: 50%;
+}
+
+.td3a {
+    font-size: 11px;
+    text-align: right;
+    border: 0;
+    width: 50%;
+}
+
+.td3L {
+    font-size: 7;
+    border: 0;
+    text-align: center;
+}
+
+.fin-page {
+    margin-top: 5px;
+    font-size: 9px;
+    text-align: center;
+}

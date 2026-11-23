@@ -1,0 +1,89 @@
+
+   @media screen and (orientation:landscape) {
+       /* Landscape styles */
+   }
+.content{
+    border: solid 1px #000;
+    width: 500px;
+    margin-top: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+background-color: #000;}
+.head{
+    width: 479px;
+    font-size: 12px;
+    padding-top: 3px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+    text-align: right;
+    background-color: rgb(179, 116, 0);
+color: #fff;
+}
+.divpn{
+    width: 479px;
+}
+.divpn1{
+    width: 100px; 
+    height: 90px;
+    float: left;
+    margin-left: 20px;
+margin-top: -40px;
+z-index: 1;
+}
+.divpn2{
+    border: solid 1px #000;
+    width: 280px; 
+    float: left;
+    padding-left: 10px;
+    padding-top: 0px;
+}
+.titre {
+    color: rgb(179, 116, 0);
+    font-size: 15px;
+}
+.paragraph {
+    font-size: 13px;
+    margin-top: 0px;
+    color: burlywood;
+}
+.logo{
+    border: solid 1px #000;
+    width: 60px; 
+    height: 40px;
+    float: left;
+}
+.divref{
+    border: solid 1px #000;
+    width: 488px; 
+    display: flex;
+margin-top: 5px;
+}
+.divref1{
+    border: solid 1px #000;
+    width: 125px; 
+    margin-top: 10px;
+
+}
+.divref2{
+    margin-top: 10px;
+    border: solid 1px #000;
+    width: 285px; 
+    padding-left: 10px;
+
+}
+.divref3{
+    border: solid 1px #000;
+    width: 75px; 
+}
+.signature{
+    text-align: right;
+    margin-right: 20px;
+    color:burlywood;
+}
+.bande{
+    background-color:  rgb(179, 116, 0);
+     height: 30px;
+     margin-bottom: 10px;
+     width: 479px;
+}

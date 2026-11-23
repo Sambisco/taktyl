@@ -1,0 +1,512 @@
+* {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.top-page {
+    width: 100%;
+    font-weight: bold;
+    font-size: 12px;
+    padding-bottom: -2px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: solid 1px;
+}
+
+.top-page1 {
+    width: 50%;
+    display: inline-block;
+}
+
+.top-page2 {
+    width: 49.5%;
+    display: inline-block;
+    text-align: right;
+}
+
+.reference {
+    padding-top: 5px;
+    border: solid 1px;
+    height: 90px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.logo {
+    width: 15%;
+    height: 85px;
+    display: inline-block;
+    border: solid 1px;
+    vertical-align: top;
+}
+
+.logo p {
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.logo-photo {
+    width: 15%;
+    height: 85px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.img-logo {
+    width: 100%;
+    height: 85px;
+    max-height: 100%;
+}
+
+.ref {
+    width: 84.5%;
+    font-size: 12px;
+    text-align: right;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.num {
+    margin-top: 5px;
+    width: 100%;
+    height: 40px;
+    font-size: 12px;
+    padding-bottom: 3px;
+}
+
+.numero {
+    width: 30%;
+    float: left;
+    font-size: 12px;
+    margin-right: 5%;
+}
+
+.numero1 {
+    background-color: #000;
+    padding-top: 2px;
+    height: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    border-radius: 15px 0px 0px 0px;
+    border: 0.5px solid #000;
+}
+
+.numero2 {
+    height: 20px;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    border-radius: 0px 0px 15px 0px;
+    border: 0.5px solid #000;
+}
+
+.date {
+    width: 30%;
+    float: left;
+    font-size: 12px;
+    margin-right: 5%;
+}
+
+.date1 {
+    background-color: #000;
+    padding-top: 2px;
+    height: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    border-radius: 15px 0px 0px 0px;
+    border: 0.5px solid #000;
+}
+
+.date2 {
+    height: 20px;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    border-radius: 0px 0px 15px 0px;
+    border: 0.5px solid #000;
+}
+
+.emit {
+    width: 30%;
+    float: left;
+    font-size: 12px;
+}
+
+.emit1 {
+    background-color: #000;
+    padding-top: 2px;
+    height: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    border-radius: 15px 0px 0px 0px;
+    border: 0.5px solid #000;
+}
+
+.emit2 {
+    height: 20px;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    border-radius: 0px 0px 15px 0px;
+    border: 0.5px solid #000;
+}
+
+.cordonnee {
+    margin-top: 10px;
+    height: 105px;
+    width: 100%;
+    font-size: 12px;
+    padding-bottom: 3px;
+}
+
+.client {
+    width: 48%;
+    height: 95px;
+    float: left;
+    font-size: 12px;
+    border: solid 1px #000;
+    margin-right: 3.5%;
+    border-radius: 15px 0px 15px 0px;
+}
+
+.client1 {
+    padding-top: 2px;
+    background-color: #000;
+    height: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    border-radius: 15px 0px 0px 0px;
+    border: 0.5px solid #000;
+}
+
+.content-client {
+    width: 100%;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.content-client1 {
+    width: 25%;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.content-client2 {
+    width: 73%;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+}
+
+.livraison {
+    width: 48%;
+    height: 95px;
+    float: left;
+    font-size: 12px;
+    border: solid 1px #000;
+    border-radius: 15px 0px 15px 0px;
+}
+
+.table-note {
+    overflow: hidden;
+    overflow-x: auto;
+    clear: both;
+    width: 100%;
+    border: 1px solid #000000;
+    height: 368px;
+    margin-bottom: 5px;
+}
+
+.table1 {
+    border-collapse: collapse;
+    margin-left: -1px;
+}
+
+.table1,
+td,
+th {
+    border: 1px solid #000000;
+}
+
+.th1 {
+    width: 5%;
+    height: 20px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    border-right: #fff 2px solid;
+}
+
+.th2 {
+    width: 50%;
+    height: 20px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    border-right: #fff 2px solid;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+.th3 {
+    width: 123px;
+    height: 20px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    border-right: #fff 2px solid;
+    font-size: 14px;
+}
+
+.th4 {
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    border-right: #fff 2px solid;
+    font-size: 14px;
+}
+
+.th5 {
+    width: 123px;
+    height: 20px;
+    text-align: right;
+    padding-right: 5px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+.td1 {
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    font-size: 13px;
+    padding-bottom: 0px;
+}
+
+.td2 {
+    width: 300px;
+    height: 20px;
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.td3 {
+    height: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.td4 {
+    height: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.td5 {
+    height: 20px;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 13px;
+}
+
+.total1 {
+    width: 57.8%;
+    height: 104px;
+    border: solid 1px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1%;
+    font-size: 12px;
+}
+
+.total2 {
+    width: 40.05%;
+    height: 104px;
+    border: solid 1px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.Espece-du,
+.avoir {
+    width: 70px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+}
+
+.Espece-du1,
+.avoir1 {
+    width: 110px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: -5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.Espece-rendu,
+.mode {
+    width: 100px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+    margin-left: -5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+}
+
+.Espece-rendu1,
+.mode1 {
+    width: 108px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: -5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.remarque {
+    font-size: 13px;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.remarque1 {
+    font-size: 9px;
+    padding-left: 5px;
+}
+
+.tt {
+    width: 135px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+}
+
+.tt1 {
+    width: 136.5px;
+    height: 15px;
+    border: solid 1px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: -5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.smlettre {
+    margin-top: 7px;
+    border: #000 1px solid;
+    font-size: 14px;
+    text-align: center;
+}
+
+.signature {
+    margin-top: 5px;
+    padding-top: 20px;
+    border: #000 1px solid;
+    height: 190px;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 17px;
+    text-align: center;
+}
+
+.signature .img-cachet {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-cachet {
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+}
+
+.fin-page {
+    margin-top: 5px;
+    padding-top: 5px;
+    font-size: 14px;
+    text-align: center;
+    bottom: 10px;
+    position: fixed;
+    border: #000 1px solid;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
