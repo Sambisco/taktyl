@@ -1,0 +1,33 @@
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Fichiers temporaires
+*.log
+*.tmp
+*.bak
+
+# Configuration sensible
+.env
+.env.*
+!.env.example
+
+# Sauvegardes et bases de données
+*.sql
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+
+# Fichiers temporaires PHP
+*.cache
+
+# Logs
+error_log
+php_errorlog
